@@ -1,0 +1,15 @@
+{
+    "title": "Test",
+    "base": "base.omt",
+    "params": {
+        "text1": "Some example text",
+        "tpl1": {
+            "type": "file",
+            "from": "test_page_1.omt"
+        },
+        "tpl2": {
+            "type": "file",
+            "from": "test_page_2.omt"
+        }
+    }
+}

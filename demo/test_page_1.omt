@@ -1,0 +1,4 @@
+p => "Hello world"
+div => [text1]
+div => [tpl1]
+div => [tpl2]

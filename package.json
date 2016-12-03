@@ -1,0 +1,29 @@
+{
+  "name": "oxygenmark-pageengine",
+  "version": "1.0.0",
+  "description": "OxygenMark PageEngine",
+  "main": "PageEngine.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/losfair/OxygenMark-PageEngine.git"
+  },
+  "keywords": [
+    "page",
+    "engine",
+    "html",
+    "oxygenmark",
+    "template"
+  ],
+  "author": "Heyang Zhou",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/losfair/OxygenMark-PageEngine/issues"
+  },
+  "homepage": "https://github.com/losfair/OxygenMark-PageEngine#readme",
+  "dependencies": {
+    "oxygenmark": "^1.1.1"
+  }
+}
