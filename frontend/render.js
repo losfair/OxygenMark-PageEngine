@@ -3,7 +3,7 @@ function doRender(data, newParams, writeToPage) {
 
     if(typeof(data) == "string") data = JSON.parse(data);
 
-    var main = data.main;
+    var base = data.base;
     var params = data.params;
     if(newParams) {
         for(var key in newParams) {
@@ -27,7 +27,7 @@ function doRender(data, newParams, writeToPage) {
         if(typeof(params[item]) == "string") stringParams[item] = params[item];
     }
 
-    eval("var func = " + main);
+    eval("var func = " + base);
     var result = func(stringParams);
 
     if(writeToPage) {
