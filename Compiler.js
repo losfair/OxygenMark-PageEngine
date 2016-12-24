@@ -14,7 +14,7 @@ try {
 }
 
 var output = {
-    "main": result.code,
+    "base": result.code,
     "params": page.params
 };
 
