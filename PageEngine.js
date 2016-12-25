@@ -58,7 +58,9 @@ function page(template) {
         } else {
             var baseFileDir = path.dirname(this.templateDir + "/" + path.normalize(this.template.base));
         }
-        return doPrepareTemplate(baseFileDir + "/" + path.normalize(this.template.base), this.params);
+        var result = doPrepareTemplate(baseFileDir + "/" + path.normalize(this.template.base), this.params);
+        if(this.template.headers) result.headers = this.template.headers;
+        return result;
     }
 }
 

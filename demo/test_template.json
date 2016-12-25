@@ -1,6 +1,14 @@
 {
     "title": "Test",
     "base": "base.omt",
+    "headers": {
+        "css": [
+            "test.css"
+        ],
+        "scripts": [
+            "test.js"
+        ]
+    },
     "params": {
         "text1": "Some example text",
         "tpl1": {

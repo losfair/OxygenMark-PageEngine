@@ -15,6 +15,7 @@ try {
 
 var output = {
     "base": result.code,
+    "headers": result.headers,
     "params": page.params
 };
 
