@@ -24,6 +24,6 @@
   },
   "homepage": "https://github.com/losfair/OxygenMark-PageEngine#readme",
   "dependencies": {
-    "oxygenmark": "^1.1.1"
+    "oxygenmark": "^1.1.2"
   }
 }
