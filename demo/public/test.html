@@ -6,7 +6,15 @@
         <div id="container"></div>
         <script src="ompe_bundle.min.js"></script>
         <script>
-        loadOMPTemplate("container", "/render_test");
+        ompe.loadOMPTemplate("container", "/render_test");
+        function blink() {
+            ompe.fadeOut(document.getElementById("container"), 300)
+            .then(function() {
+                return ompe.fadeIn(document.getElementById("container"), 300);
+            })
+            .then(blink);
+        }
+        setTimeout(blink, 1000);
         </script>
     </body>
 </html>

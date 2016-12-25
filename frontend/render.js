@@ -21,7 +21,7 @@ function loadHeaders(headers) {
     }
 }
 
-export function doRender(data, newParams, writeToPage) {
+export function doRender(target, data, newParams, writeToPage) {
     let result = "";
 
     if(typeof(data) == "string") data = JSON.parse(data);
@@ -58,7 +58,7 @@ export function doRender(data, newParams, writeToPage) {
         if(data.headers) {
             loadHeaders(data.headers);
         }
-        document.body.innerHTML = result;
+        target.innerHTML = result;
     }
 
     return result;
