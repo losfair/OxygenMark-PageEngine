@@ -1,4 +1,5 @@
 node_modules/
+frontend_build/
+demo/public/*.min.js
 *.omp
 *.omc
-

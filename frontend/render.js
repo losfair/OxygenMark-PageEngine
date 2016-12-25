@@ -1,104 +1,65 @@
-(function() {
-    function addCssRefToDocumentHead(p) {
-        var newElem = document.createElement("link");
-        newElem.href = p;
-        newElem.rel = "stylesheet";
-        newElem.type = "text/css";
-        document.head.appendChild(newElem);
-    }
+import * as pageUtils from "./page.js";
 
-    function addScriptRefToDocumentHead(p) {
-        var newElem = document.createElement("script");
-        newElem.src = p;
-        document.head.appendChild(newElem);
-    }
-
-    function loadHeaders(headers) {
-        if(headers.css) {
-            if(typeof(headers.css) == "string") {
-                addCssRefToDocumentHead(headers.css);
-            } else {
-                headers.css.forEach((v) => {
-                    addCssRefToDocumentHead(v);
-                });
-            }
-        }
-        if(headers.scripts) {
-            if(typeof(headers.scripts) == "string") {
-                addScriptRefToDocumentHead(headers.scripts);
-            } else {
-                headers.scripts.forEach((v) => {
-                    addScriptRefToDocumentHead(v);
-                })
-            }
-        }
-    }
-
-    function doRender(data, newParams, writeToPage) {
-        var result = "";
-
-        if(typeof(data) == "string") data = JSON.parse(data);
-
-        var base = data.base;
-        var params = data.params;
-        if(newParams) {
-            for(var key in newParams) {
-                params[key] = newParams[key];
-            }
-        }
-
-        for(var p in params) {
-            if(params[p] && typeof(params[p]) == "object" && params[p].type == "script") {
-                eval("var func = " + params[p].code);
-                var stringParams = {};
-                for(var item in params) {
-                    if(typeof(params[item]) == "string") stringParams[item] = params[item];
-                }
-                params[p] = func(stringParams);
-            }
-        }
-        
-        var stringParams = {};
-        for(var item in params) {
-            if(typeof(params[item]) == "string") stringParams[item] = params[item];
-        }
-
-        eval("var func = " + base);
-        var result = func(stringParams);
-
-        if(writeToPage) {
-            if(data.title) document.title = data.title;
-            if(data.headers) {
-                loadHeaders(data.headers);
-            }
-            document.body.innerHTML = result;
-        }
-
-        return result;
-    }
-    window.loadOMPTemplate = function(target, templatePath, params, callback) {
-        if(!callback) {
-            return new Promise(function(cb) {
-                window.loadOMPTemplate(target, templatePath, params, function(result) {
-                    cb(result);
-                });
+function loadHeaders(headers) {
+    if(headers.css) {
+        if(typeof(headers.css) == "string") {
+            pageUtils.addCssRefToDocumentHead(headers.css);
+        } else {
+            headers.css.forEach((v) => {
+                pageUtils.addCssRefToDocumentHead(v);
             });
         }
-        if(typeof(target) == "string") target = document.getElementById(target);
-        if(!target) throw "Bad target";
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", templatePath, true);
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState == xhr.DONE) {
-                if(xhr.status < 200 || xhr.status >= 300) {
-                    console.log("Request failed");
-                    callback("Failed");
-                    return;
-                }
-                doRender(xhr.responseText, params, true);
-                callback("OK");
-            }
-        }
-        xhr.send(null);
     }
-})();
+    if(headers.scripts) {
+        if(typeof(headers.scripts) == "string") {
+            pageUtils.addScriptRefToDocumentHead(headers.scripts);
+        } else {
+            headers.scripts.forEach((v) => {
+                pageUtils.addScriptRefToDocumentHead(v);
+            })
+        }
+    }
+}
+
+export function doRender(data, newParams, writeToPage) {
+    let result = "";
+
+    if(typeof(data) == "string") data = JSON.parse(data);
+
+    let base = data.base;
+    let params = data.params;
+    if(newParams) {
+        for(let key in newParams) {
+            params[key] = newParams[key];
+        }
+    }
+
+    for(var p in params) {
+        if(params[p] && typeof(params[p]) == "object" && params[p].type == "script") {
+            let func = (new Function("return " + params[p].code))();
+            let stringParams = {};
+            for(var item in params) {
+                if(typeof(params[item]) == "string") stringParams[item] = params[item];
+            }
+            params[p] = func(stringParams);
+        }
+    }
+    
+    let stringParams = {};
+    for(let item in params) {
+        if(typeof(params[item]) == "string") stringParams[item] = params[item];
+    }
+
+    let func = (new Function("return " + base))();
+    result = func(stringParams);
+
+    if(writeToPage) {
+        if(data.title) document.title = data.title;
+        if(data.headers) {
+            loadHeaders(data.headers);
+        }
+        document.body.innerHTML = result;
+    }
+
+    return result;
+}
